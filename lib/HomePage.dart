@@ -19,7 +19,19 @@ class HomePage extends StatelessWidget {
     getStudents();
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Student"),
+        title: Obx(
+          () => homeController.search.value
+              ? TextField(
+                  autofocus: true,
+                  decoration: const InputDecoration(
+                    hintText: 'Search',
+                  ),
+                  onChanged: (value) {
+                    homeController.searchFun(value);
+                  },
+                )
+              : const Text("Student"),
+        ),
         actions: [
           Obx(
             () => IconButton(
@@ -33,27 +45,6 @@ class HomePage extends StatelessWidget {
             ),
           )
         ],
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight((56.0)),
-          child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Obx(
-                () => homeController.search.value
-                    ? TextField(
-                        autofocus: true,
-                        decoration: InputDecoration(
-                          hintText: 'Search',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                        onChanged: (value) {
-                          homeController.searchFun(value);
-                        },
-                      )
-                    : const SizedBox(),
-              )),
-        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
